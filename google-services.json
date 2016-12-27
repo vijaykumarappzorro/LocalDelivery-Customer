@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "680263896172",
+    "firebase_url": "https://local-delivery-148509.firebaseio.com",
+    "project_id": "local-delivery-148509",
+    "storage_bucket": "local-delivery-148509.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680263896172:android:aa92d6220b6bdddd",
+        "android_client_info": {
+          "package_name": "com.example.appzaorro.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680263896172-8d99l8tdshe814cinlqmf3om2td1e2ba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsGUK_Lg7mVzKHCnW4hJQQNVmO03ml1Ig"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

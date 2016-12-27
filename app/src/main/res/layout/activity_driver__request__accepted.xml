@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_driver__request__accepted"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.appzaorro.myapplication.Driver_Request_Accepted">
+    <include
+        android:id="@+id/toolbar1"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar1"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <EditText
+            android:id="@+id/edtcustomername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_icon_user"
+            android:drawablePadding="10dp"
+            android:hint= "Customer name"/>
+    <EditText
+        android:id="@+id/picked_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_icon_pin"
+        android:layout_marginTop="20dp"
+        android:drawablePadding="10dp"
+        android:hint="Pickup location "/>
+    <EditText
+        android:id="@+id/destination"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_icon_destination"
+        android:layout_marginTop="20dp"
+        android:drawablePadding="10dp"
+        android:hint="Destination "/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/ic_icon_price"
+        android:drawablePadding="10dp"
+        android:hint="Estimate Price"
+        style="@style/Base.TextAppearance.AppCompat.Large"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/datepicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_icon_date"
+            android:drawablePadding="10dp"
+            android:text="Date"
+            android:layout_weight="0.5"
+            style="@style/Base.TextAppearance.AppCompat.Large" />
+        <TextView
+            android:id="@+id/timepicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_icon_time"
+            android:drawablePadding="10dp"
+            android:text="Time"
+            android:layout_weight="0.5"
+            style="@style/Base.TextAppearance.AppCompat.Large"/>
+    </LinearLayout>
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:inputType="textMultiLine"
+        android:drawableLeft="@drawable/ic_icon_description"
+        android:background="@drawable/border_color_blue"
+        android:drawablePadding="10dp"
+        android:gravity="start"
+        android:hint="Description" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+        <Button
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_icon_cancel_btn"
+            android:text="Cancel"
+            android:textColor="#40bfff"
+            android:id="@+id/btncancel"
+          android:layout_alignParentLeft="true" />
+
+        <Button
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_icon_accept_btn"
+            android:text="Accept"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/white"
+            android:id="@+id/btnsend"
+            android:layout_alignParentTop="true" />
+    </RelativeLayout>
+    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</RelativeLayout>

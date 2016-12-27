@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wallet="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_payment_"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <include
+            android:id="@+id/toolbar1"
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar1"
+            android:orientation="vertical"
+            android:padding="30dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your payment method"
+            android:layout_marginLeft="5dp"
+            style="@style/Base.TextAppearance.AppCompat.Large" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/darker_gray" />
+        <TextView
+            android:id="@+id/txtcash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cash"
+            android:drawableLeft="@mipmap/ic_icon_cash"
+            android:drawablePadding="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            style="@style/Base.TextAppearance.AppCompat.Large" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Other payment method"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="5dp"
+            style="@style/Base.TextAppearance.AppCompat.Large" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/darker_gray"
+            />
+
+        <TextView
+            android:id="@+id/txtcredit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Credit/Debit card"
+            android:drawableLeft="@mipmap/ic_icon_credit"
+            android:drawablePadding="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            style="@style/Base.TextAppearance.AppCompat.Large" />
+        <TextView
+            android:id="@+id/txtpaytam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Paytm Wallet"
+            android:drawableLeft="@mipmap/ic_icon_paytm"
+            android:drawablePadding="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            style="@style/Base.TextAppearance.AppCompat.Large" />
+        <TextView
+            android:id="@+id/txtairtel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Paytm Wallet"
+            android:drawableLeft="@mipmap/ic_icon_airtel"
+            android:drawablePadding="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            style="@style/Base.TextAppearance.AppCompat.Large" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
