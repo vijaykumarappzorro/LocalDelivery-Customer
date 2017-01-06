@@ -4,7 +4,7 @@
     android:id="@+id/activity_choose__a__driver"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.appzaorro.myapplication.Choose_A_Driver">
+    tools:context="com.example.appzaorro.myapplication.view.Choose_A_Driver">
 <include layout="@layout/toolbar_layout"
     android:id="@+id/toolbar"/>
     <ListView

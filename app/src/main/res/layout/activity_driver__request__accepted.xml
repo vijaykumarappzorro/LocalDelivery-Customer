@@ -4,7 +4,7 @@
     android:id="@+id/activity_driver__request__accepted"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.appzaorro.myapplication.Driver_Request_Accepted">
+    tools:context="com.example.appzaorro.myapplication.view.Driver_Request_Accepted">
     <include
         android:id="@+id/toolbar1"
         layout="@layout/toolbar"

@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:text="Your payment method"
             android:layout_marginLeft="5dp"
-            style="@style/Base.TextAppearance.AppCompat.Large" />
+            style="@style/Base.TextAppearance.AppCompat.Medium" />
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
@@ -36,20 +36,19 @@
             android:drawablePadding="10dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="20dp"
-            style="@style/Base.TextAppearance.AppCompat.Large" />
+            style="@style/Base.TextAppearance.AppCompat.Medium" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Other payment method"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="5dp"
-            style="@style/Base.TextAppearance.AppCompat.Large" />
+            style="@style/Base.TextAppearance.AppCompat.Medium" />
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginTop="10dp"
-            android:background="@android:color/darker_gray"
-            />
+            android:background="@android:color/darker_gray" />
 
         <TextView
             android:id="@+id/txtcredit"
@@ -60,7 +59,7 @@
             android:drawablePadding="10dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="20dp"
-            style="@style/Base.TextAppearance.AppCompat.Large" />
+            style="@style/Base.TextAppearance.AppCompat.Medium" />
         <TextView
             android:id="@+id/txtpaytam"
             android:layout_width="match_parent"
@@ -70,18 +69,17 @@
             android:drawablePadding="10dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="20dp"
-            style="@style/Base.TextAppearance.AppCompat.Large" />
-        <TextView
-            android:id="@+id/txtairtel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Paytm Wallet"
-            android:drawableLeft="@mipmap/ic_icon_airtel"
-            android:drawablePadding="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="20dp"
-            style="@style/Base.TextAppearance.AppCompat.Large" />
-
+            style="@style/Base.TextAppearance.AppCompat.Medium" />
+            <TextView
+                android:id="@+id/intenet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="5dp"
+                android:drawableLeft="@mipmap/netbanking"
+                style="@style/Base.TextAppearance.AppCompat.Large"
+                android:drawablePadding="10dp"
+                android:text="Net Banking" />
         </LinearLayout>
     </RelativeLayout>
 

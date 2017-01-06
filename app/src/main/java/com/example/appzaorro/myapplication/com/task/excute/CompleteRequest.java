@@ -1,26 +1,19 @@
 package com.example.appzaorro.myapplication.com.task.excute;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.appzaorro.myapplication.Pending_Trips;
-import com.example.appzaorro.myapplication.ServiceHandler;
+import com.example.appzaorro.myapplication.model.ServiceHandler;
 import com.example.appzaorro.myapplication.com.getter.Completed_getter;
-import com.example.appzaorro.myapplication.com.getter.Create_EVENTBUS;
-import com.example.appzaorro.myapplication.com.getter.PendingRequest;
+import com.example.appzaorro.myapplication.model.Event;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by vijay on 30/11/16.
@@ -99,7 +92,7 @@ public class CompleteRequest {
                     arrayList.add(completed_getter);
 
                 }
-                EventBus.getDefault().post(new Create_EVENTBUS("COMPLETE","TRUE"));
+                EventBus.getDefault().post(new Event("COMPLETE","TRUE"));
 
             }catch (Exception ex){
 

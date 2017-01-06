@@ -4,7 +4,7 @@
     android:id="@+id/activity_search_"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.appzaorro.myapplication.Search_Activity">
+    tools:context="com.example.appzaorro.myapplication.view.Search_Activity">
     <SearchView
         android:id="@+id/searchView1"
         android:layout_width="match_parent"

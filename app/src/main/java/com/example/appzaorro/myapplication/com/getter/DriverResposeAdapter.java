@@ -9,15 +9,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.appzaorro.myapplication.Choose_A_Driver;
+import com.example.appzaorro.myapplication.model.Operations;
+import com.example.appzaorro.myapplication.view.Choose_A_Driver;
 import com.example.appzaorro.myapplication.R;
 import com.example.appzaorro.myapplication.com.task.excute.Accepted_EstimatedRequest;
-import com.example.appzaorro.myapplication.com.task.excute.GetPendingRequest;
-import com.example.appzaorro.myapplication.fragment.com.Pending_Trips_Fragment;
 
 import java.util.ArrayList;
 
@@ -89,12 +87,8 @@ public class DriverResposeAdapter  extends BaseAdapter{
                     Toast.makeText(context,"Driver id  " +id,Toast.LENGTH_LONG ).show();
                     Accepted_EstimatedRequest accepted_estimatedRequest = new Accepted_EstimatedRequest();
                     accepted_estimatedRequest.Accepted_EstimatedRequest(context, Operations.acceptEstimatedDeliveryRequest(context,usaerid,Choose_A_Driver.requestId,id));
-
                 }
-
-
             });
-
             return rowView;
         }
 

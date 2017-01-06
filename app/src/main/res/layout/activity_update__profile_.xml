@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.appzaorro.myapplication.com.update.com.Update_Profile_Activity">
+    tools:context="com.example.appzaorro.myapplication.view.Update_Profile_Activity">
     <include
         android:id="@+id/toolbar1"
         layout="@layout/toolbar"

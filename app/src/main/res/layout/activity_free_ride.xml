@@ -4,7 +4,7 @@
     android:id="@+id/activity_free_ride"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.appzaorro.myapplication.FreeRide">
+    tools:context="com.example.appzaorro.myapplication.view.FreeRide">
     <include
         android:id="@+id/toolbar1"
         layout="@layout/toolbar"

@@ -5,8 +5,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.appzaorro.myapplication.ServiceHandler;
-import com.example.appzaorro.myapplication.com.getter.Create_EVENTBUS;
+import com.example.appzaorro.myapplication.model.ServiceHandler;
+import com.example.appzaorro.myapplication.model.Event;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -30,7 +30,6 @@ public class RequestToDriver {
 
         new ExecuteApi(context).execute(params);
 
-        
     }
 
     class ExecuteApi extends AsyncTask<String, String, String> {
@@ -77,11 +76,11 @@ public class RequestToDriver {
 
                 if (responseid>0) {
 
-                    EventBus.getDefault().post(new Create_EVENTBUS("SUCCESS",result));
+                    EventBus.getDefault().post(new Event("SUCCESS",result));
 
 
                 } else {
-                    EventBus.getDefault().post(new Create_EVENTBUS("FAILED",result));
+                    EventBus.getDefault().post(new Event("FAILED",result));
 
 
                 }

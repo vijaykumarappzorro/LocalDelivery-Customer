@@ -76,66 +76,62 @@
                     android:background="@drawable/rounded_shape"
                     android:textColor="@android:color/white"
                     android:textSize="20dp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp">
+                    <TextView
+                        android:id="@+id/txtforgot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Forgot Password.?"
+                        android:textColor="#40bfff"
+                        android:layout_below="@+id/layout"
+                        android:layout_alignParentLeft="true"
+                        style="@style/Base.TextAppearance.AppCompat.Small" />
+                    <TextView
+                        android:id="@+id/txtnewuser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New here? Sign Up"
+                        android:textColor="@android:color/black"
+                        android:layout_alignParentRight="true"
+                        style="@style/Base.TextAppearance.AppCompat.Small" />
+
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                       android:layout_gravity="center"
+                        android:background="@android:color/darker_gray" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Or Signing using"
+                        android:layout_gravity="center"
+                        android:textColor="#40bfff"
+                        style="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:id="@+id/textView1" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+
+                        android:layout_gravity="center"
+                        android:background="@android:color/darker_gray" />
+                </LinearLayout>
             </LinearLayout>
-            <TextView
-                android:id="@+id/txtforgot"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Forgot Password.?"
-                android:textColor="#40bfff"
-              android:layout_alignParentLeft="true"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="30dp"
-                style="@style/Base.TextAppearance.AppCompat.Small"
-                android:layout_above="@+id/textView"
-                />
-            <TextView
-                android:id="@+id/txtnewuser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New here? Sign Up"
-                android:textColor="@android:color/black"
-                android:layout_marginTop="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
-                style="@style/Base.TextAppearance.AppCompat.Small"
-                android:layout_above="@+id/textView" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout1"
-                android:layout_marginTop="20dp"
-                android:textAlignment="center"
-                android:text="Or Signing using"
-                android:layout_centerHorizontal="true"
-                android:textColor="#40bfff"
-                style="@style/Base.TextAppearance.AppCompat.Medium"
-                android:id="@+id/textView" />
-            <View
-
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/layout1"
-                android:layout_marginLeft="60dp"
-                android:background="@android:color/darker_gray"
-                android:layout_toLeftOf="@+id/textView"
-                android:layout_marginTop="35dp"/>
-            <View
-
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/layout1"
-                android:layout_marginRight="60dp"
-                android:layout_toRightOf="@+id/textView"
-                android:background="@android:color/darker_gray"
-                android:layout_marginTop="35dp"/>
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textView"
+                android:layout_below="@+id/layout1"
                 android:orientation="horizontal"
-                android:layout_marginTop="5dp"
                 android:padding="20dp"
                 android:layout_centerHorizontal="true">
                 <ImageView

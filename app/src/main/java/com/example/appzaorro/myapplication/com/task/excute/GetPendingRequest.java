@@ -6,8 +6,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.appzaorro.myapplication.ServiceHandler;
-import com.example.appzaorro.myapplication.com.getter.Create_EVENTBUS;
+import com.example.appzaorro.myapplication.model.ServiceHandler;
+import com.example.appzaorro.myapplication.model.Event;
 import com.example.appzaorro.myapplication.com.getter.DriverDetail;
 import com.example.appzaorro.myapplication.com.getter.PendingRequest;
 
@@ -106,7 +106,7 @@ public class GetPendingRequest {
                             if (jsonArray1.length() > 0) {
                                 list = new ArrayList<>();
 
-                                EventBus.getDefault().post(new Create_EVENTBUS("DRIVERRESPONSE", "true"));
+                                EventBus.getDefault().post(new Event("DRIVERRESPONSE", "true"));
 
                                 for (int j = 0; j < jsonArray1.length(); j++) {
 
@@ -141,7 +141,7 @@ public class GetPendingRequest {
 
                             String errorMessage = jsonObject1.getString("message");
                             Log.e("error message", errorMessage);
-                            EventBus.getDefault().post(new Create_EVENTBUS("NOREQUEST", errorMessage));
+                            EventBus.getDefault().post(new Event("NOREQUEST", errorMessage));
 
                         }
 
@@ -153,7 +153,7 @@ public class GetPendingRequest {
 
                     ex.printStackTrace();
                 }
-                EventBus.getDefault().post(new Create_EVENTBUS("Response",""));
+                EventBus.getDefault().post(new Event("Response",""));
             }
             else {
 

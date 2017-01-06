@@ -7,11 +7,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.appzaorro.myapplication.Config;
-import com.example.appzaorro.myapplication.Pending_Trips;
-import com.example.appzaorro.myapplication.ServiceHandler;
-import com.example.appzaorro.myapplication.com.getter.Create_EVENTBUS;
-import org.greenrobot.eventbus.EventBus;
+import com.example.appzaorro.myapplication.view.Pending_Trips;
+import com.example.appzaorro.myapplication.model.ServiceHandler;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import cn.pedant.SweetAlert.SweetAlertDialog;

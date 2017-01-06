@@ -61,7 +61,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_below="@+id/productdescription"
-                android:src="@drawable/ic_icon_down_arrow"
+                android:src="@mipmap/doubldown"
                 android:layout_marginTop="20dp"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>

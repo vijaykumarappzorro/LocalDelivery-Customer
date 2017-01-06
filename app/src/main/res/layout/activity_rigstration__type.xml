@@ -4,7 +4,7 @@
     android:id="@+id/activity_rigstration__type"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.appzaorro.myapplication.Rigstration_Type">
+    tools:context="com.example.appzaorro.myapplication.view.Rigstration_Type">
 
 
 </RelativeLayout>

@@ -5,7 +5,7 @@
     android:id="@+id/activity_android_pay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.appzaorro.myapplication.AndroidPayActivity">
+    tools:context="com.example.appzaorro.myapplication.view.AndroidPayActivity">
 
 
     <fragment
