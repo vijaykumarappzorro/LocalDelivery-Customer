@@ -5,28 +5,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.appzaorro.myapplication.view.Search_Activity">
-    <SearchView
+   <android.support.v7.widget.Toolbar
+       android:id="@+id/toolbar"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="@android:color/holo_blue_light">
+
+       <EditText
+           android:id="@+id/searchView1"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:padding="8dp"
+           android:layout_marginLeft="10dp"
+           android:layout_marginRight="10dp"
+           android:hint="Enter location here"
+           android:background="@drawable/border_edit"/>
+
+       <!--<SearchView
+           android:id="@+id/searchView1"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:focusable="true"
+           android:layout_marginTop="20dp"
+           android:queryHint="enter your location here"
+           android:background="@android:color/white"
+           android:layout_marginRight="10dp"
+           android:layout_marginBottom="10dp"
+           android:layout_marginLeft="10dp"
+           android:focusableInTouchMode="true">
+       </SearchView>
+-->
+   </android.support.v7.widget.Toolbar>
+   <!-- <SearchView
         android:id="@+id/searchView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       android:layout_marginLeft="20dp"
         android:focusable="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:queryHint="enter your location here"
-        android:background="@android:color/white"
+        android:background="@drawable/border_edittext"
         android:focusableInTouchMode="true"
-        android:layout_marginRight="20dp">
-    </SearchView>
+      >
+    </SearchView>-->
     <ListView
         android:id="@+id/list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/searchView1"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/toolbar"
         android:background="@drawable/listviewborder"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:divider="@android:color/holo_blue_bright"
         android:dividerHeight="1dip"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="10dp">
     </ListView>
+    <ListView
+        android:id="@+id/listrecentlocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/listviewborder"
+        android:layout_marginLeft="10dp"
+        android:divider="@android:color/holo_blue_bright"
+        style="@style/Base.TextAppearance.AppCompat.Small"
+        android:dividerHeight="1dip"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/list_item">
+    </ListView>
+
 
 </RelativeLayout>

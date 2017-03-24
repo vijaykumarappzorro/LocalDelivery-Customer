@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:id="@+id/pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="100dp"
+        android:src="@drawable/ic_icon_pin"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleimage"
+        android:layout_width="50dp"
+        android:layout_height="60dp"
+        app:civ_border_width="3dp"
+        android:src="@android:color/white"
+        app:civ_border_color="@android:color/holo_blue_light"
+        android:layout_alignBottom="@+id/pin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp" />
+    <RelativeLayout
+        android:id="@+id/timelayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/pin"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:id="@+id/minutevalue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3 "
+            android:layout_marginTop="5dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/black"
+            android:textSize="10dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Minute"
+
+            android:textSize="10dp"
+            android:textColor="@android:color/black"
+            android:layout_below="@+id/minutevalue"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

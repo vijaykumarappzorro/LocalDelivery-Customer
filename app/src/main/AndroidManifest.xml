@@ -25,6 +25,7 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".view.MainActivity"
             android:label="@string/app_name"
@@ -32,6 +33,7 @@
         <activity android:name=".view.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -39,11 +41,7 @@
         <activity android:name=".view.login.Custom_Registration" />
         <activity android:name=".view.login.Driver_Registration_Form" />
         <activity android:name=".view.login.Forgot_Password" />
-        <activity android:name=".view.HomePage_Activity">
-
-
-
-        </activity>
+        <activity android:name=".view.HomePage_Activity"></activity>
         <activity android:name=".view.TestDialog" />
         <!--
             <activity
@@ -51,14 +49,16 @@
             android:configChanges="keyboardHidden|orientation|keyboard"
             android:screenOrientation="portrait" />
         -->
+       <!-- <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBMDO1Gyv3OoFqhKSruSzX57AnFoC_Mbjs" />-->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBMDO1Gyv3OoFqhKSruSzX57AnFoC_Mbjs" />
+            android:value="AIzaSyCe39xUws4uS9SyqZB2S9dNODk1I1zZ02Y" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".view.Rigstration_Type" />
         <activity android:name=".view.login.Checked_email" />
         <activity android:name=".view.login.ResetPassword" />
         <activity android:name=".view.Driver_Request_Accepted" />
@@ -71,9 +71,14 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".view.Update_Profile_Activity" />
 
-        <service android:name=".view.login.Get_Device_Token">
+        <service android:name=".model.FireIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".model.FireMsgService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
@@ -86,21 +91,22 @@
             android:name="com.paytm.pgsdk.PaytmPGActivity"
             android:configChanges="keyboardHidden|orientation|keyboard"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.CardPayment"/>
-
+        <activity android:name=".view.CardPayment" />
         <activity
-            android:label="Processing your payment"
             android:name="in.juspay.godel.PaymentActivity"
             android:hardwareAccelerated="true"
+            android:label="Processing your payment"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity android:name=".view.FeedBack" />
 
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
 
-        <activity android:name=".view.AndroidPayActivity"></activity>
+        <activity android:name=".view.AndroidPayActivity" />
+        <activity android:name=".view.LoginFacebookActivity"/>
+        <activity android:name=".view.OnTripActivity"></activity>
     </application>
 
 </manifest>

@@ -48,8 +48,6 @@ public class FreeRide extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home)
 
         {
-            Intent intent = new Intent(FreeRide.this,HomePage_Activity.class);
-            startActivity(intent);
             finish();
         }
         return super.onOptionsItemSelected(item);

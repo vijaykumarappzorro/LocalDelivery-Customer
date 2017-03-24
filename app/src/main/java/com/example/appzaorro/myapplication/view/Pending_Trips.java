@@ -1,6 +1,5 @@
 package com.example.appzaorro.myapplication.view;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -86,8 +85,7 @@ public class Pending_Trips extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here
         if (item.getItemId() == android.R.id.home){
-            Intent intent = new Intent(Pending_Trips.this,HomePage_Activity.class);
-            startActivity(intent);
+           finish();
         }
         return super.onOptionsItemSelected(item);
     }

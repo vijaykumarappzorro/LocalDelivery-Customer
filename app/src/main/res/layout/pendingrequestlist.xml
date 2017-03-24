@@ -5,8 +5,8 @@
     <ListView
         android:id="@+id/requestlist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="70dp">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp">
     </ListView>
     <ImageView
         android:id="@+id/imageview"

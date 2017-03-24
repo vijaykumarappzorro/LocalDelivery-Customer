@@ -1,6 +1,5 @@
 package com.example.appzaorro.myapplication.view;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,8 +29,8 @@ public class History_Demo extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here
         if (item.getItemId() == android.R.id.home){
-            Intent intent = new Intent(History_Demo.this,HomePage_Activity.class);
-            startActivity(intent);
+
+          finish();
         }
         return super.onOptionsItemSelected(item);
     }

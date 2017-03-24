@@ -36,7 +36,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_toRightOf="@+id/imageview"
                             android:layout_marginTop="20dp"
-                            style="@style/Base.TextAppearance.AppCompat.Small"
+                            android:textSize="10dp"
                             android:text="Order Id: C567810KHHF"/>
                         <TextView
                             android:id="@+id/txtcash"
@@ -45,7 +45,7 @@
                             android:layout_alignParentRight="true"
                             android:drawableLeft="@mipmap/ic_icon_rupee"
                             android:layout_marginTop="20dp"
-                            style="@style/Base.TextAppearance.AppCompat.Small"
+                            android:textSize="10dp"
                             android:text="158"/>
                         <TextView
                             android:id="@+id/txtxashview"
@@ -54,7 +54,7 @@
                             android:layout_toLeftOf="@+id/txtcash"
                             android:layout_marginTop="20dp"
                             android:textColor="@android:color/holo_green_light"
-                            style="@style/Base.TextAppearance.AppCompat.Small"
+                           android:textSize="10dp"
                             android:text="CASH:"/>
                         <View
                             android:id="@+id/view1"
@@ -68,10 +68,11 @@
                         <TextView
                             android:id="@+id/txtdetail"
                             android:layout_width="match_parent"
-                            android:layout_height="70dp"
+                            android:layout_height="wrap_content"
                             android:layout_below="@id/view1"
                             android:layout_toRightOf="@+id/imageview"
                             android:layout_marginLeft="15dp"
+                            android:textSize="10dp"
                             android:text="Detail of driver"
                             android:layout_marginTop="15dp"/>
                         <View
@@ -90,8 +91,6 @@
                             android:textAlignment="center"
                             android:textColor="#40bfff"
                             style="@style/Base.TextAppearance.AppCompat.Large" />
-
-
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
                 <RelativeLayout
@@ -99,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:visibility="gone">
+                    android:visibility="visible">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -119,7 +118,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_below="@+id/txtdeliver">
                     <TextView
                         android:id="@+id/txtpikupAddress"
@@ -128,6 +127,7 @@
                         android:text="PICKED ADDRESS"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="10dp"
+                        android:textSize="10dp"
                         android:layout_alignParentLeft="true"
                         android:textColor="@android:color/black"
                         android:layout_weight="1"/>
@@ -148,6 +148,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
+                        android:textSize="10dp"
                         android:textColor="@android:color/black"
                         android:layout_alignParentRight="true"
                         android:id="@+id/txtdropaddress" />
@@ -159,7 +160,7 @@
                     android:id="@+id/farelayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_below="@+id/view4">
                     <View
                         android:id="@+id/view4"
@@ -173,7 +174,7 @@
                         android:layout_marginTop="20dp"
                         android:text="Base fare"
                         android:layout_below="@+id/view4"
-                        style="@style/Base.TextAppearance.AppCompat.Medium"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
                         android:layout_alignParentLeft="true" />
 
                     <TextView
@@ -182,6 +183,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:text="Base fare"
+                        android:textSize="10dp"
                         android:textColor="@android:color/black"
                         android:layout_alignParentRight="true"/>
 
@@ -191,6 +193,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="6.98 miles"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
                         android:textColor="@android:color/black"
                         android:layout_below="@+id/txtfare"
 
@@ -202,6 +205,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="56"
+                        android:textSize="10dp"
                         android:textColor="@android:color/black"
                         android:layout_below="@+id/txtfare"
                         android:layout_alignParentRight="true" />
@@ -212,6 +216,7 @@
                         android:layout_marginTop="10dp"
                         android:text="25.95 Minute"
                         android:textColor="@android:color/black"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
                         android:layout_below="@+id/txtmiles"
                         android:layout_alignParentLeft="true" />
                     <TextView
@@ -220,6 +225,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="26"
+                        android:textSize="10dp"
                         android:textColor="@android:color/black"
                         android:layout_below="@+id/txtmiles"
                         android:layout_alignParentRight="true" />
@@ -228,6 +234,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="Sub Toatl"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
                         android:textColor="@android:color/black"
                         android:layout_below="@+id/txttime"
                         android:layout_alignParentLeft="true" />
@@ -237,6 +244,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="108"
+                        android:textSize="10dp"
                         android:textColor="@android:color/black"
                         android:layout_below="@+id/txttimefare"
                         android:layout_alignParentRight="true" />
@@ -245,6 +253,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="Promotion"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
                         android:textColor="@android:color/black"
                         android:layout_below="@+id/txtsutoatlamount"
 
@@ -255,6 +264,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="- 50"
+                        android:textSize="10dp"
                         android:textColor="@android:color/black"
                         android:layout_below="@+id/txtsutoatlamount"
                         android:layout_alignParentRight="true" />
@@ -266,7 +276,7 @@
                         android:textStyle="bold"
                         android:textColor="@android:color/black"
                         android:layout_below="@+id/txtpromotionamount"
-                        style="@style/Base.TextAppearance.AppCompat.Medium"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
                         android:layout_alignParentLeft="true" />
                     <TextView
                         android:id="@+id/txttotalpayble"
@@ -275,6 +285,7 @@
                         android:layout_marginTop="10dp"
                         android:text="58"
                         android:textStyle="bold"
+                        android:textSize="10dp"
                         android:drawableLeft="@mipmap/rupees"
                         android:textColor="@android:color/black"
                         android:layout_below="@+id/txtpromotionamount"

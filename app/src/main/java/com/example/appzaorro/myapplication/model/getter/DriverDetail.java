@@ -1,4 +1,4 @@
-package com.example.appzaorro.myapplication.com.getter;
+package com.example.appzaorro.myapplication.model.getter;
 
 /**
  * Created by vijay on 18/11/16.

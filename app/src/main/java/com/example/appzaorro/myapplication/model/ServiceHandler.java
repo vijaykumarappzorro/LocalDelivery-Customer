@@ -58,7 +58,7 @@ public class ServiceHandler {
  
                 httpResponse = httpClient.execute(httpPost);
  
-            } else if (method == GET) {
+            }else if (method == GET) {
                 // appending params to url
                 if (params != null) {
                     String paramString = URLEncodedUtils

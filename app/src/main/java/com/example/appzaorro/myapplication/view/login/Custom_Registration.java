@@ -2,20 +2,13 @@ package com.example.appzaorro.myapplication.view.login;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -31,52 +24,39 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appzaorro.myapplication.R;
+import com.example.appzaorro.myapplication.controller.ModelManager;
 import com.example.appzaorro.myapplication.model.Config;
-import com.example.appzaorro.myapplication.model.Ldshareadprefernce;
+import com.example.appzaorro.myapplication.model.Constants;
+import com.example.appzaorro.myapplication.model.Event;
+import com.example.appzaorro.myapplication.model.Operations;
 import com.example.appzaorro.myapplication.view.Utility;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.Profile;
-import com.facebook.internal.ImageRequest;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import dmax.dialog.SpotsDialog;
+
+import static com.example.appzaorro.myapplication.model.Config.device_token;
+import static com.example.appzaorro.myapplication.model.Config.device_type;
+import static com.example.appzaorro.myapplication.model.Config.user_type;
 
 
 public class Custom_Registration extends AppCompatActivity {
@@ -84,12 +64,10 @@ public class Custom_Registration extends AppCompatActivity {
     TextInputLayout edtFirstname, edtLastname, edtMail, edtPassword, edtMobile;
     EditText frstname,lastname,emailid, password,mobile;
     String strFirstname, strLastname, strEmail, strPassword, strMbile, covertedImage;
-    String device_type = "A";
-    String device_token = "67f234f22k";
-    String user_type = "customer";
-    Button register;
+    TextView register;
     ImageView facebook_login;
-    String Register ="register";
+    Context context;
+
     //loginstatus=1 for facbooklogin and  loginstatus = 0 for simple login
     String LoginStatus="0";
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
@@ -98,82 +76,23 @@ public class Custom_Registration extends AppCompatActivity {
     String userChoosenTask;
     ImageView mImage;
     Bitmap bitmapimage;
-    LoginButton loginButton;
     CallbackManager callbackManager;
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
-
-
+    android.app.AlertDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_custom__registration);
-        callbackManager = CallbackManager.Factory.create();
-        loginButton = (LoginButton)findViewById(R.id.login_button);
-        register = (Button) findViewById(R.id.btnregister);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Customer Register Form");
-        toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        context= this;
+
         Intilizingwidght();
 
-/* getting the device token for push notification.*/
-        device_token = FirebaseInstanceId.getInstance().getToken();
-        Log.e("tokenid",""+device_token);
 
-        progressDialog = new ProgressDialog(Custom_Registration.this);
-
-        bitmapimage = BitmapFactory.decodeResource(getResources(),
-                R.mipmap.custom);
-        convertImageToBase64();
-
-        // set circle bitmap
-        mImage = (ImageView) findViewById(R.id.image);
-        mImage.setImageBitmap(getCircleBitmap(bitmapimage));
         mImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectImage();
                 hideKeybord(v);
-            }
-        });
-        facebook_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("onclick on","on facebook");
-              //loginWithFacebook();
-              //loginButton.performClick();
-                LoginManager.getInstance().logInWithReadPermissions(Custom_Registration.this,
-                        Arrays.asList("user_friends", "email", "public_profile","user_birthday"));
-
-                LoginManager.getInstance().registerCallback(callbackManager,
-                        new FacebookCallback<LoginResult>() {
-                            @Override
-                            public void onSuccess(LoginResult loginResult) {
-                                setFacebookData(loginResult);
-                            String facebook=    loginResult.getAccessToken().getToken();
-                            Log.e("facebooktoken",facebook);
-                            }
-
-                            @Override
-                            public void onCancel() {
-
-                            }
-
-                            @Override
-                            public void onError(FacebookException exception) {
-                            }
-                        });
-
-
             }
         });
 
@@ -186,15 +105,18 @@ public class Custom_Registration extends AppCompatActivity {
 
             }
         });
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
     }
+
+
+
     private void requestFocus(View view) {
         if (view.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
     }
+
+
     private boolean validateFirstname() {
         if (frstname.getText().toString().trim().isEmpty()) {
             edtFirstname.setError("Required");
@@ -280,17 +202,19 @@ public class Custom_Registration extends AppCompatActivity {
             return;
         }
 
-
         strFirstname = edtFirstname.getEditText().getText().toString().trim();
         strLastname = edtLastname.getEditText().getText().toString();
         strEmail = edtMail.getEditText().getText().toString().trim();
         strPassword = edtPassword.getEditText().getText().toString();
         strMbile = edtMobile.getEditText().getText().toString();
 
+        dialog = new SpotsDialog(context);
+        dialog.show();
 
+        ModelManager.getInstance().getRegisterManager().RegisterManager(context,Config.custom_register_url, Operations.registerUser(context,strEmail,strFirstname,
+                strLastname,strPassword,strMbile, device_token, device_type, user_type,covertedImage));
 
-
-        new RegistrationTask().execute(Register, strEmail, strFirstname, strLastname, strPassword, strMbile, device_token, device_type, user_type, "32.112342", "76.4523442", covertedImage);
+      //  new RegistrationTask().execute(Register, strEmail, strFirstname, strLastname, strPassword, strMbile, device_token, device_type, user_type, "32.112342", "76.4523442", covertedImage);
 
 
     }
@@ -299,6 +223,7 @@ public class Custom_Registration extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == Activity.RESULT_OK) {
@@ -310,29 +235,6 @@ public class Custom_Registration extends AppCompatActivity {
         }
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
-    }
-
-    public Bitmap getCircleBitmap(Bitmap bitmap) {
-        final Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        final Canvas canvas = new Canvas(output);
-
-        final int color = Color.RED;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        final RectF rectF = new RectF(rect);
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawOval(rectF, paint);
-
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        bitmap.recycle();
-
-        return output;
     }
 
     // validate the emial id  te email id should be fully domain
@@ -433,7 +335,7 @@ public class Custom_Registration extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mImage.setImageBitmap(getCircleBitmap(thumbnail));
+        mImage.setImageBitmap(thumbnail);
         byte[] byteArray = bytes.toByteArray();
         covertedImage = Base64.encodeToString(byteArray, 0);
         Log.e("camera images",covertedImage);
@@ -445,6 +347,7 @@ public class Custom_Registration extends AppCompatActivity {
     private void onSelectFromGalleryResult(Intent data) {
 
         Bitmap bm = null;
+
         if (data != null) {
             try {
                 bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
@@ -452,16 +355,16 @@ public class Custom_Registration extends AppCompatActivity {
                 bm.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
                 byte[] byteArray = bytes.toByteArray();
                 covertedImage = Base64.encodeToString(byteArray, 0);
-                mImage.setImageBitmap(getCircleBitmap(bm));
+                mImage.setImageBitmap(bm);
                 Log.e("From gallery",covertedImage);
-            } catch (IOException e) {
+            }catch (IOException e) {
                 e.printStackTrace();
             }
         }
         else {
 
-        }
 
+        }
         //convertImageToBase64(bm);
     }
 /* hide the keyboard from the UI ..*/
@@ -470,44 +373,64 @@ public class Custom_Registration extends AppCompatActivity {
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("Custom_Registration Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+        EventBus.getDefault().register(context);
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        EventBus.getDefault().unregister(context);
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
+    }
+
+    @Subscribe
+    public void onEvent(Event event) {
+
+        switch (event.getKey()) {
+
+            case Constants.REGISTER:
+                dialog.dismiss();
+                Config.event_meesage =event.getValue();
+                new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText(Config.event_meesage)
+                        .setContentText("Please verify your email id")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                Intent intent = new Intent(context,Login_activity.class);
+                                startActivity(intent);
+                                finish();
+                                sweetAlertDialog.dismiss();
+                            }
+                        })
+                        .show();
+
+                break;
+
+            case Constants.NOT_REGISTER:
+                dialog.dismiss();
+                Config.event_meesage = event.getValue();
+                new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Failed")
+                        .setContentText(Config.event_meesage).show();
+                break;
+
+            case Constants.SERVER_ERROR:
+                dialog.dismiss();
+                Toast.makeText(context, "Please check your intenet cconnection", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     // create Aysntask class for Registration of the User
-   public  class RegistrationTask extends AsyncTask<String, String, String> {
+
+  /* public  class RegistrationTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -558,6 +481,7 @@ public class Custom_Registration extends AppCompatActivity {
                 int user_id =Integer.parseInt(id);
                 Log.e("getting response", "" + result);
                 if (user_id>=1) {
+
                     Ldshareadprefernce.putString(Custom_Registration.this,"LOGINSTATUS",LoginStatus);
                     Toast.makeText(Custom_Registration.this,"Message "+result,Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(Custom_Registration.this, Login_activity.class);
@@ -570,7 +494,7 @@ public class Custom_Registration extends AppCompatActivity {
                 ex.printStackTrace();
             }
         }
-    }
+    }*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here
@@ -582,58 +506,8 @@ public class Custom_Registration extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    private void setFacebookData(final LoginResult loginResult)
-    {
 
 
-        GraphRequest request = GraphRequest.newMeRequest(
-                loginResult.getAccessToken(),
-                new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        // Application code
-                        try {
-                            Log.e("Response",response.toString());
-                            String facebookid = response.getJSONObject().getString("id");
-                            String email = response.getJSONObject().getString("email");
-                            String firstName = response.getJSONObject().getString("first_name");
-                            String lastName = response.getJSONObject().getString("last_name");
-                            String gender = response.getJSONObject().getString("gender");
-                            String bday= response.getJSONObject().getString("birthday");
-                            Profile profile = Profile.getCurrentProfile();
-                            Uri profilePictureUri = ImageRequest.getProfilePictureUri(facebookid, 200 , 250);
-
-
-                            if (Profile.getCurrentProfile()!=null)
-                            {
-                                LoginStatus = "1";
-
-
-
-
-
-                                // Register using with user Facebook Login
-                                new RegistrationTask().execute(Register,email,firstName,lastName,strPassword,strMbile,device_token,device_type,user_type,"45.112342", "90.4523442", String.valueOf(profilePictureUri));
-                            }
-                            Log.e("Login" + "Email", email);
-                            Log.e("Login"+ "FirstName", firstName);
-                            Log.e("Login" + "LastName", lastName);
-                            Log.e("Login" + "Gender", gender);
-                            Log.e("Login" + "Bday", bday);
-                            Log.e("facebookprofilepic", String.valueOf(profilePictureUri));
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,email,first_name,last_name,gender,picture,birthday");
-        request.setParameters(parameters);
-        request.executeAsync();
-    }
-
-  /*  here validate the all require field for Registration*/
     private class MyTextWatcher implements TextWatcher {
 
       private View view;
@@ -672,10 +546,22 @@ public class Custom_Registration extends AppCompatActivity {
   }
 /* all the widght are define here */
     public void Intilizingwidght(){
+
+        callbackManager = CallbackManager.Factory.create();
+
+        register = (TextView) findViewById(R.id.btnregister);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Customer Register Form");
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
         edtFirstname = (TextInputLayout) findViewById(R.id.firstname);
         edtLastname = (TextInputLayout) findViewById(R.id.lastname);
         edtMail = (TextInputLayout) findViewById(R.id.email);
-        facebook_login =(ImageView)findViewById(R.id.imgfacebook);
+
         edtPassword = (TextInputLayout) findViewById(R.id.password);
         edtMobile = (TextInputLayout) findViewById(R.id.mobile);
         frstname =(EditText)findViewById(R.id.edt_firstname);
@@ -688,6 +574,16 @@ public class Custom_Registration extends AppCompatActivity {
         emailid.addTextChangedListener(new MyTextWatcher(emailid));
         mobile.addTextChangedListener(new MyTextWatcher(mobile));
         password.addTextChangedListener(new MyTextWatcher(password));
+
+        bitmapimage = BitmapFactory.decodeResource(getResources(),
+                R.mipmap.custom);
+        convertImageToBase64();
+
+        // set circle bitmap
+        mImage = (ImageView) findViewById(R.id.customer_image);
+        mImage.setImageBitmap(bitmapimage);
+        device_token = FirebaseInstanceId.getInstance().getToken();
+        Log.e("tokenid",""+ device_token);
     }
 
     @Override

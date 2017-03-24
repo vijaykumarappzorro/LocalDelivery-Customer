@@ -4,6 +4,7 @@ package com.example.appzaorro.myapplication.view.fragment;
  * Created by vijay on 12/10/16.
  */
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,25 +21,32 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.appzaorro.myapplication.view.Choose_A_Driver;
-import com.example.appzaorro.myapplication.model.Config;
 import com.example.appzaorro.myapplication.R;
+import com.example.appzaorro.myapplication.controller.ModelManager;
+import com.example.appzaorro.myapplication.controller.PendingRequestManager;
+import com.example.appzaorro.myapplication.model.Constants;
 import com.example.appzaorro.myapplication.model.Event;
+import com.example.appzaorro.myapplication.model.Ldshareadprefernce;
 import com.example.appzaorro.myapplication.model.Operations;
-import com.example.appzaorro.myapplication.com.getter.PendingRequest;
-import com.example.appzaorro.myapplication.com.task.excute.GetPendingRequest;
+import com.example.appzaorro.myapplication.model.getter.DriverDetail;
+import com.example.appzaorro.myapplication.model.getter.PendingRequest;
+import com.example.appzaorro.myapplication.view.Choose_A_Driver;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
+import dmax.dialog.SpotsDialog;
+
 public class Pending_Trips_Fragment extends Fragment {
     ListView listView;
     String downstatus="CLOSE";
     SharedPreferences sharedPreferences;
     String status="pending";
+    AlertDialog dialog;
 
 
 
@@ -63,14 +71,11 @@ public class Pending_Trips_Fragment extends Fragment {
         Log.e("statisss",""+status);
         ImageView imageView =(ImageView)view.findViewById(R.id.imageview);
         TextView textView =(TextView)view.findViewById(R.id.txtview);
-        sharedPreferences = getActivity().getSharedPreferences("CUSTOMER_DETAIL", Context.MODE_PRIVATE);
-        Config.customer__id =sharedPreferences.getString("USERID","");
-
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PendingRequest pendingRequest =  GetPendingRequest.arrayList.get(position);
+                PendingRequest pendingRequest =  PendingRequestManager.arrayList.get(position);
                 String requestID= pendingRequest.getRequestid();
                 Log.e("Requestid",requestID);
 
@@ -82,9 +87,16 @@ public class Pending_Trips_Fragment extends Fragment {
                     getActivity().finish();
             }
         });
+        dialog = new SpotsDialog(getActivity());
+        dialog.show();
+        ModelManager.getInstance().getPendingRequestManager().PendingRequestManager(getActivity(), Operations.getPendingRequest(getActivity(), Ldshareadprefernce.readString(
+                getActivity(),"USERID"
+        )));
 
-        GetPendingRequest getPendingRequest = new GetPendingRequest();
-        getPendingRequest.GetPendingRequest(getActivity(), Operations.getPendingRequest(getActivity(),Config.customer__id));
+        /*GetPendingRequest getPendingRequest = new GetPendingRequest();
+        getPendingRequest.GetPendingRequest(getActivity(), Operations.getPendingRequest(getActivity(), Ldshareadprefernce.readString(getActivity(),"USERID")));
+*/
+
         return view;
     }
 
@@ -105,14 +117,17 @@ public class Pending_Trips_Fragment extends Fragment {
     public void onEvent(Event event){
         ArrayList<PendingRequest>arrayList = new ArrayList<>();
         PendingRequest request = new PendingRequest();
-
-
-        switch (event.getKey()) {
-
-            case "Response":
-                CustomAdapter customAdapter = new CustomAdapter(getActivity(),GetPendingRequest.arrayList);
+        switch(event.getKey()){
+            case Constants.RESPONSE:
+                dialog.dismiss();
+                CustomAdapter customAdapter = new CustomAdapter(getActivity(), PendingRequestManager.arrayList);
                 listView.setAdapter(customAdapter);
                 break;
+            case Constants.SERVER_ERROR:
+                dialog.dismiss();
+                Toast.makeText(getContext(),"Check your internet connection",Toast.LENGTH_LONG).show();
+                break;
+
         }
     }
     @Override
@@ -127,6 +142,7 @@ public class Pending_Trips_Fragment extends Fragment {
     public class CustomAdapter extends BaseAdapter{
        Context context;
         ArrayList<PendingRequest>list;
+        ArrayList<DriverDetail>driverlist;
         private LayoutInflater inflater=null;
         public CustomAdapter(Context context,ArrayList<PendingRequest>list) {
 
@@ -168,10 +184,23 @@ public class Pending_Trips_Fragment extends Fragment {
             holder.txtpick=(TextView) rowView.findViewById(R.id.txtpick_address);
             holder.txtdrop=(TextView) rowView.findViewById(R.id.txtdeliver_address);
             holder.imgscroll=(ImageView) rowView.findViewById(R.id.scrollimage);
+            holder.imgdriverindicator=(ImageView)rowView.findViewById(R.id.driverindicator);
             final String staus= users.getStatusreport();
             holder.relativeLayout.setVisibility(View.GONE);
             holder.txtrequestid.setText(users.getRequestid());
             holder.txtdescripton.setText(users.getDescrption());
+            holder.txtprice.setText(users.getCustomerprice());
+            holder.imgdriverindicator.setVisibility(View.GONE);
+            driverlist= users.getList();
+            if (driverlist.size()>0){
+
+                holder.imgdriverindicator.setVisibility(View.VISIBLE);
+
+            }
+            else {
+
+                holder.imgdriverindicator.setVisibility(View.GONE);
+            }
             if (staus.equals("1")){
 
                 holder.txtstatusreport.setText("Ongoing");
@@ -198,15 +227,14 @@ public class Pending_Trips_Fragment extends Fragment {
                 public void onClick(View v) {
                     if(downstatus.equals("OPEN")){
                         holder.relativeLayout.setVisibility(View.GONE);
-                        holder.imgscroll.setImageResource(R.mipmap.doubldown);
+                        holder.imgscroll.setImageResource(R.mipmap.down);
                         downstatus="CLOSE";
                     }
                     else if (downstatus.equals("CLOSE")) {
                         holder.relativeLayout.setVisibility(View.VISIBLE);
-                        holder.imgscroll.setImageResource(R.mipmap.doubleup);
+                        holder.imgscroll.setImageResource(R.mipmap.up);
                         downstatus = "OPEN";
                     }
-
                 }
             });
 
@@ -219,7 +247,7 @@ public class Pending_Trips_Fragment extends Fragment {
     public class Holder
     {
         TextView txtrequestid,txtdescripton,txtstatusreport,txtdatetime,txtprice,txtpick,txtdrop,txtpayment;
-        ImageView imgscroll;
+        ImageView imgscroll,imgdriverindicator;
         RelativeLayout relativeLayout;
 
     }

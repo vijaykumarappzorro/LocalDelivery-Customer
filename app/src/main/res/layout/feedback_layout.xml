@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" How was your Experinced ?"
+            android:textColor="@android:color/black" />
+
+        <RatingBar
+            android:id="@+id/ratingBar1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/time"
+            android:layout_marginTop="15dp" />
+        <EditText
+            android:id="@+id/edtdescription"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:hint="Description"
+            android:padding="10dp"
+            android:gravity="top"
+            android:background="@drawable/border_edittext"/>
+        <Button
+            android:id="@+id/btnsubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#40bfff"
+            android:text="Submit"
+            android:onClick="submitclick"
+            android:textColor="@android:color/white" />
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

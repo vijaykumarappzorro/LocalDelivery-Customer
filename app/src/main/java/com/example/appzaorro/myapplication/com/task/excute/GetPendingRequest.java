@@ -8,8 +8,8 @@ import android.widget.Toast;
 
 import com.example.appzaorro.myapplication.model.ServiceHandler;
 import com.example.appzaorro.myapplication.model.Event;
-import com.example.appzaorro.myapplication.com.getter.DriverDetail;
-import com.example.appzaorro.myapplication.com.getter.PendingRequest;
+import com.example.appzaorro.myapplication.model.getter.DriverDetail;
+import com.example.appzaorro.myapplication.model.getter.PendingRequest;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -27,9 +27,9 @@ public class GetPendingRequest {
     ProgressDialog progressDialog;
     String params;
     public static String RequestSataus="";
-     public   static ArrayList<PendingRequest>arrayList ;
+     public static ArrayList<PendingRequest>arrayList ;
     public  static ArrayList<DriverDetail>driverdata ;
-    ArrayList<DriverDetail> list;
+    ArrayList<DriverDetail>list;
 
     private EventBus bus = EventBus.getDefault();
 
@@ -67,7 +67,7 @@ public class GetPendingRequest {
 
             arrayList = new ArrayList<>();
             driverdata = new ArrayList<>();
-          list = new ArrayList<>();
+            list = new ArrayList<>();
             ServiceHandler sh = new ServiceHandler();
             String result = sh.makeServiceCall(params[0], sh.GET);
             Log.e("url", params[0].toString());
@@ -84,7 +84,6 @@ public class GetPendingRequest {
             if (s!=null) {
 
                 try {
-
                     JSONObject jsonObject = new JSONObject(s);
                     JSONArray jsonArray = jsonObject.getJSONArray("response");
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -98,14 +97,15 @@ public class GetPendingRequest {
                             String status = jsonObject1.getString("request_status");
 
                             String description = jsonObject1.getString("product_desc");
+                            String customerprice = jsonObject1.getString("price");
 
                             Log.e("Description: ", "" + description);
 
                             JSONArray jsonArray1 = jsonObject1.getJSONArray("pending_requests");
 
                             if (jsonArray1.length() > 0) {
-                                list = new ArrayList<>();
 
+                                list = new ArrayList<>();
                                 EventBus.getDefault().post(new Event("DRIVERRESPONSE", "true"));
 
                                 for (int j = 0; j < jsonArray1.length(); j++) {
@@ -133,7 +133,7 @@ public class GetPendingRequest {
                                 list = new ArrayList<>();
 
                             }
-                            PendingRequest pendingRequest = new PendingRequest(requestid, description, time, pick, drop, status, list);
+                            PendingRequest pendingRequest = new PendingRequest(requestid, description, time, pick, drop, status,customerprice, list);
                             arrayList.add(pendingRequest);
 
 

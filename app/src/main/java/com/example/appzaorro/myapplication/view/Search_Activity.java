@@ -1,35 +1,44 @@
 package com.example.appzaorro.myapplication.view;
 
+import android.content.Context;
 import android.content.Intent;
-import android.os.StrictMode;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SearchView;
 
 import com.example.appzaorro.myapplication.R;
+import com.example.appzaorro.myapplication.controller.ModelManager;
+import com.example.appzaorro.myapplication.controller.SearchAddressManager;
 import com.example.appzaorro.myapplication.model.Config;
+import com.example.appzaorro.myapplication.model.Constants;
+import com.example.appzaorro.myapplication.model.Event;
+import com.example.appzaorro.myapplication.model.Ldshareadprefernce;
+import com.example.appzaorro.myapplication.model.database.LocationDatabase;
+import com.example.appzaorro.myapplication.model.getter.LocationBean;
+import com.example.appzaorro.myapplication.model.getter.RecentLocationdapter;
+import com.example.appzaorro.myapplication.model.getter.RecentlocationBean;
+import com.example.appzaorro.myapplication.model.getter.SearchAddressAdapter;
+import com.example.appzaorro.myapplication.model.getter.SearchAddressBean;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Search_Activity extends AppCompatActivity {
-    SearchView search;
-    ListView listView;
+  //  SearchView search;
+    ListView listView,recentlist;
+    private EventBus bus = EventBus.getDefault();
     String status= "YES";
     private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
     private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
@@ -38,31 +47,27 @@ public class Search_Activity extends AppCompatActivity {
     static String API_KEY ="AIzaSyD_ZxOh6Iyhld4l1q9nswiPYHZrpIvdC1E";
     ArrayList<String>placeid;
     ArrayList<String> rsultlist;
+    ArrayList<String>listrecent;
     String searchstatus,filledaddress;
+    List<LocationBean>priviouslist;
+    ArrayList<SearchAddressBean>address;
+    ArrayList<RecentlocationBean>recentloction;
+    LocationDatabase locationDatabase;
+    SearchAddressAdapter searchAddressAdapter;
+    Context context;
     ArrayAdapter arrayAdapter;
+    EditText serach;
+    Toolbar toolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_);
-        search=(SearchView) findViewById(R.id.searchView1);
-        listView =(ListView)findViewById(R.id.list_item);
-        Intent intent = getIntent();
-        searchstatus = intent.getStringExtra("SEARCHSTATUS");
-        filledaddress = intent.getStringExtra("filledtext");
-        Log.e("serachstatus",""+searchstatus);
-        placeid = new ArrayList<>();
-        search.setIconifiedByDefault(true);
-        search.setIconified(false);
-        if (filledaddress!=null){
+        context=this;
+        initview();
 
-            search.setQueryHint(filledaddress);
-        }
 
-        arrayList = autocompletedText("");
-        arrayAdapter   = new ArrayAdapter(this,android.R.layout.simple_list_item_1, arrayList);
-        listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -73,8 +78,8 @@ public class Search_Activity extends AppCompatActivity {
                   //  intent.putExtra("placeid", placeid.get(position));
                     Config.SearchStatus ="PICK";
                     Config.place_id = placeid.get(position);
-                   // startActivity(intent);
-                    finish();
+                    ModelManager.getInstance().getPlaceParser().getAddress(context,placeid.get(position),"PICK");
+
                 }
               else if (Config.SearchStatus.equals("DEST")){
 
@@ -82,8 +87,21 @@ public class Search_Activity extends AppCompatActivity {
                     //intent.putExtra("placeid", placeid.get(position));
                     Config.SearchStatus ="DEST";
                     Config.place_id = placeid.get(position);
-                  //  startActivity(intent);
-                    finish();
+                    ModelManager.getInstance().getPlaceParser().getAddress(context,placeid.get(position),"DEST");
+                }
+                else if (Config.SearchStatus.equals("HOMELOCATION")){
+
+                    Config.place_id =placeid.get(position);
+                    ModelManager.getInstance().getPlaceParser().getAddress(context,placeid.get(position),"HOMELOCATION");
+
+
+                }
+                else if (Config.SearchStatus.equals("WORKLOCATION")){
+
+                    Config.place_id =placeid.get(position);
+                    ModelManager.getInstance().getPlaceParser().getAddress(context,placeid.get(position),"WORKLOCATION");
+
+
                 }
                 else {
                     Config.place_id = placeid.get(position);
@@ -92,9 +110,65 @@ public class Search_Activity extends AppCompatActivity {
                 }
             }
         });
+       recentlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               LocationBean bean = priviouslist.get(position);
+               if (Config.SearchStatus.equals("DEST")){
+               /*    Config.recentlat= bean.getSourcelat();
+                   Config.recentlng= bean.getSourcelng();*/
+                   Ldshareadprefernce.putString(context,"dest_latitude",bean.getSourcelat());
+                   Ldshareadprefernce.putString(context,"dest_longitude",bean.getSourcelng());
+                   Config.SearchStatus="DESTCHOOSE";
+                   finish();
+               }
+               else if(Config.SearchStatus.equals("PICK")){
+                   Ldshareadprefernce.putString(context,"source_latitude",bean.getSourcelat());
+                   Ldshareadprefernce.putString(context,"source_longitude",bean.getSourcelng());
+                   Config.recentlat= bean.getSourcelat();
+                   Config.recentlng= bean.getSourcelng();
+                   Config.SearchStatus="PICKCHOOSE";
+                   finish();
+               }
+               else if (Config.SearchStatus.equals("WORKLOCATION")){
+
+                  Ldshareadprefernce.putString(context,"work_latitude",bean.getSourcelat());
+                   Ldshareadprefernce.putString(context,"work_longitude",bean.getSourcelng());
+                   Config.SearchStatus="WORKLOCATION";
+                   finish();
+
+               }
+               else if (Config.SearchStatus.equals("HOMELOCATION")){
+
+                   Ldshareadprefernce.putString(context,"home_latitude",bean.getSourcelat());
+                   Ldshareadprefernce.putString(context,"home",bean.getSourcelng());
+                   Config.SearchStatus="HOMELOCATION";
+                   finish();
+               }
 
 
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+           }
+       });
+
+            serach.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    ModelManager.getInstance().getSearchAddressManager().getAddress(context,s.toString());
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+      /*  search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
@@ -115,7 +189,8 @@ public class Search_Activity extends AppCompatActivity {
                     listView.setAdapter(null);
                 }
 
-                  autocompletedText(newText);
+                ModelManager.getInstance().getSearchAddressManager().getAddress(context,newText);
+                //  autocompletedText(newText);
 
 
 
@@ -123,104 +198,101 @@ public class Search_Activity extends AppCompatActivity {
                 return false;
             }
 
-        });
+        });*/
 
     }
-    public  ArrayList autocompletedText(String input){
 
+    public void initview(){
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        HttpURLConnection conn = null;
-        StringBuilder jsonResults = new StringBuilder();
-        try {
+        locationDatabase = new LocationDatabase(this);
+        serach =(EditText)findViewById(R.id.searchView1);
 
-            StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
-            sb.append("?key=" + API_KEY);
-            sb.append("&input=" + URLEncoder.encode(input, "utf8"));
+        //search=(SearchView) findViewById(R.id.searchView1);
+        listView =(ListView)findViewById(R.id.list_item);
+        recentlist =(ListView)findViewById(R.id.listrecentlocation);
+        toolbar =(Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        Intent intent = getIntent();
+        searchstatus = intent.getStringExtra("SEARCHSTATUS");
+        filledaddress = intent.getStringExtra("filledtext");
+        listrecent = new ArrayList<>();
+        priviouslist = locationDatabase.getAllFriends();
+        Log.e("serachstatus",""+searchstatus);
+        // previouslocation= myConnection.selectAllData();
+        placeid = new ArrayList<>();
+        //search.setIconifiedByDefault(true);
+        //search.setIconified(false);
 
-            URL url = new URL(sb.toString());
-            Log.e("new url", String.valueOf(url));
+        if (priviouslist.size()>0){
 
-            conn = (HttpURLConnection) url.openConnection();
+            recentloction = new ArrayList<>();
 
-            InputStreamReader in = new InputStreamReader(conn.getInputStream());
-
-
-            // Load the results into a StringBuilder
-            int read;
-            char[] buff = new char[1024];
-
-            while ((read = in.read(buff)) != -1) {
-                jsonResults.append(buff, 0, read);
-
+            for (int i=0; i<priviouslist.size();i++){
+                LocationBean locationBean = priviouslist.get(i);
+                //    RecentlocationBean recentlocationBean = recentloction.add(locationBean.getSourceadd(),locationBean.getSourcearea());
+                RecentlocationBean recentlocationBean = new RecentlocationBean(locationBean.getSourceadd(),locationBean.getSourcearea());
+                recentloction.add(recentlocationBean);
             }
-
-        } catch (MalformedURLException e) {
-
-            Log.e("", "Error processing Places API URL", e);
-
-            return rsultlist;
-
-        } catch (IOException e) {
-
-            Log.e("", "Error connecting to Places API", e);
-
-            return rsultlist;
-
-        } finally {
-
-            if (conn != null) {
-
-                conn.disconnect();
-
-            }
+            RecentLocationdapter recentLocationdapter = new RecentLocationdapter(context,recentloction);
+            recentlist.setAdapter(recentLocationdapter);
+            recentLocationdapter.notifyDataSetChanged();
 
         }
 
 
+    }
 
-        try {
+    @Subscribe
+    public void onEvent(Event event){
+        Log.e("call","eventbus");
 
-            // Create a JSON object hierarchy from the results
+        switch (event.getKey()) {
 
-            JSONObject jsonObj = new JSONObject(jsonResults.toString());
-
-            JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
-
-
-
-            // Extract the Place descriptions from the results
-
-            rsultlist = new ArrayList(predsJsonArray.length());
-            placeid=new ArrayList<>();
-
-            for (int i = 0; i < predsJsonArray.length(); i++) {
-                Log.e("description",predsJsonArray.getJSONObject(i).getString("description"));
-                Log.e("placeId",predsJsonArray.getJSONObject(i).getString("place_id"));
-                String descripton =predsJsonArray.getJSONObject(i).getString("description");
-                rsultlist.add(predsJsonArray.getJSONObject(i).getString("description"));
-                placeid.add( predsJsonArray.getJSONObject(i).getString("place_id"));
-            }
-            Log.e("SizeArray",""+rsultlist.size());
-            Log.e("SizePlace",""+placeid.size());
-
-            arrayAdapter   = new ArrayAdapter(this,android.R.layout.simple_list_item_1, rsultlist);
-            listView.setAdapter(arrayAdapter);
-            arrayAdapter.notifyDataSetChanged();
-        } catch (JSONException e) {
-
-
-            Log.e("", "Cannot process JSON results", e);
-
+            case Constants.picksearch:
+                finish();
+                break;
+            case Constants.dropsearch:
+                finish();
+                break;
+            case Constants.homelocation:
+                finish();
+                break;
+            case Constants.worksearch:
+                finish();
+                break;
+            case Constants.address_success:
+                Log.e("on call","0");
+                placeid = SearchAddressManager.placeIdList;
+                address = SearchAddressManager.addressList;
+                Log.e("addresslist",address.toString());
+                searchAddressAdapter = new SearchAddressAdapter(context,address);
+                listView.setAdapter(searchAddressAdapter);
+                searchAddressAdapter.notifyDataSetChanged();
+                break;
         }
 
 
-
-            return rsultlist;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bus.register(context);
 
+    }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        bus.unregister(context);
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

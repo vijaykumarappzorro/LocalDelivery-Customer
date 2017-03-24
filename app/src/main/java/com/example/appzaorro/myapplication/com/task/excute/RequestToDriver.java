@@ -70,7 +70,6 @@ public class RequestToDriver {
                 JSONObject jsonObject = new JSONObject(s);
                 JSONObject jsonObject1 = jsonObject.getJSONObject("response");
                 String result = jsonObject1.getString("message");
-
                 String id=  jsonObject1.getString("id");
                 int responseid= Integer.parseInt(id);
 

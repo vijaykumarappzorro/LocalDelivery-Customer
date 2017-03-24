@@ -1,7 +1,6 @@
 package com.example.appzaorro.myapplication.view.fragment;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,18 +14,21 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.appzaorro.myapplication.model.Config;
 import com.example.appzaorro.myapplication.R;
-import com.example.appzaorro.myapplication.com.getter.Completed_getter;
+import com.example.appzaorro.myapplication.controller.CompleteRequestManager;
+import com.example.appzaorro.myapplication.controller.ModelManager;
+import com.example.appzaorro.myapplication.model.Constants;
 import com.example.appzaorro.myapplication.model.Event;
+import com.example.appzaorro.myapplication.model.Ldshareadprefernce;
 import com.example.appzaorro.myapplication.model.Operations;
-import com.example.appzaorro.myapplication.com.getter.PendingRequest;
-import com.example.appzaorro.myapplication.com.task.excute.CompleteRequest;
+import com.example.appzaorro.myapplication.model.getter.Completed_getter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+
+import cc.cloudist.acplibrary.ACProgressFlower;
 
 /**
  * Created by vijay on 12/10/16.
@@ -34,8 +36,9 @@ import java.util.ArrayList;
 
 public class Completed_Trips_Fragment extends Fragment {
     ListView listView1;
-
-    SharedPreferences sharedPreferences;
+    ImageView imageView;
+    TextView txtinstruction;
+    ACProgressFlower dialog;
 
 
     public Completed_Trips_Fragment() {
@@ -52,19 +55,19 @@ public class Completed_Trips_Fragment extends Fragment {
 
           View view =inflater.inflate(R.layout.completedlist, container, false);
           listView1 = (ListView)view.findViewById(R.id.listview);
-//this shareadprefernce used to get cutomer resgister id
-        sharedPreferences = getActivity().getSharedPreferences("CUSTOMER_DETAIL", Context.MODE_PRIVATE);
-        Config.customer__id =sharedPreferences.getString("USERID","");
-        CompleteRequest completeRequest = new CompleteRequest();
-        completeRequest.CompleteRequest(getActivity(), Operations.completeRquestbyDriver(getActivity(),Config.customer__id));
-/*
+          imageView =(ImageView)view.findViewById(R.id.imageview);
+          txtinstruction=(TextView)view.findViewById(R.id.txtview);
 
-        listView1 =(ListView)view.findViewById(R.id.listview);
-        list1 = new ArrayList<>();
-        Log.e("In COMPLETE","TRIP");
-       CompleteAdtapter completeAdtapter = new CompleteAdtapter(getActivity(),list1);
-        listView1.setAdapter(completeAdtapter);
-*/
+
+        //CompleteRequest completeRequest = new CompleteRequest();
+       /* dialog = new ACProgressFlower.Builder(getActivity()).build();
+        dialog.show();*/
+        ModelManager.getInstance().getCompleteRequestManager().CompleteRequestManager(getActivity(), Operations.completeRquestbyDriver(
+                getActivity(), Ldshareadprefernce.readString(getActivity(),"USERID")
+        ));
+
+
+      //  completeRequest.CompleteRequest(getActivity(), Operations.completeRquestbyDriver(getActivity(), Ldshareadprefernce.readString(getActivity(),"USERID")));
 
         return view;
     }
@@ -81,17 +84,34 @@ public class Completed_Trips_Fragment extends Fragment {
     }
     @Subscribe
     public void onEvent(Event event){
-        ArrayList<PendingRequest>arrayList = new ArrayList<>();
-        PendingRequest request = new PendingRequest();
+
         Log.e("calling to eventbus","");
 
 
         switch (event.getKey()) {
 
             case "COMPLETE":
-               CompleteAdtapter completeAdtapter = new CompleteAdtapter(getActivity(),CompleteRequest.arrayList);
-                listView1.setAdapter(completeAdtapter);
+             /*  CompleteAdtapter completeAdtapter = new CompleteAdtapter(getActivity(),CompleteRequest.arrayList);
+                listView1.setAdapter(completeAdtapter);*/
                 break;
+            case Constants.completedtripstatus:
+                int id = Integer.parseInt(event.getValue());
+                if (id>0){
+                    Log.e("data are ","avilable");
+                    listView1.setVisibility(View.VISIBLE);
+                    imageView.setVisibility(View.GONE);
+                    txtinstruction.setVisibility(View.GONE);
+                    CompleteAdtapter completeAdtapter1 = new CompleteAdtapter(getActivity(), CompleteRequestManager.arrayList);
+                    listView1.setAdapter(completeAdtapter1);
+
+                }
+                else {
+                    Log.e("data are ","avilable");
+                    listView1.setVisibility(View.GONE);
+                    txtinstruction.setVisibility(View.VISIBLE);
+                    imageView.setVisibility(View.VISIBLE);
+
+                }
         }
     }
 
@@ -154,15 +174,16 @@ public class Completed_Trips_Fragment extends Fragment {
 
             holder.mapview=(ImageView) rowView.findViewById(R.id.mapimage);
             holder.driverimage=(ImageView) rowView.findViewById(R.id.imageview);
-            Log.e("pickup address",completeTripDeatil.getPickupaddress());
-            Log.e("drop address",completeTripDeatil.getDropaddress());
 
+            Log.e("pickup address",completeTripDeatil.getPickupaddress());
+
+            Log.e("drop address",completeTripDeatil.getDropaddress());
 
             holder.txtrequestid.setText(completeTripDeatil.getRequestid());
             holder.txtcash.setText(completeTripDeatil.getCahs());
-            holder.txtdetail.setText(completeTripDeatil.getDriverid()+"\n"+completeTripDeatil.getDrivername()+"\n"+completeTripDeatil.getDrivermobile());
-            holder.txtpick.setText(completeTripDeatil.getPickupaddress()+"\n");
-            holder.txtdrop.setText(completeTripDeatil.getDropaddress()+"\n");
+            holder.txtdetail.setText(" Driver Id: "+completeTripDeatil.getDriverid()+"\n\n Name: "+completeTripDeatil.getDrivername()+"\n\n Mobile: "+completeTripDeatil.getDrivermobile());
+            holder.txtpick.setText(completeTripDeatil.getPickupaddress());
+            holder.txtdrop.setText(completeTripDeatil.getDropaddress());
             holder.txtmiledistnce.setText(completeTripDeatil.getDistance());
             holder.txttoatlcash.setText(completeTripDeatil.getCahs());
             Log.e("Status",staus);

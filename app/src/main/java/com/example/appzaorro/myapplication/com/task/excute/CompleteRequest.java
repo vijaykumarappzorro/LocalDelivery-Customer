@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.appzaorro.myapplication.model.ServiceHandler;
-import com.example.appzaorro.myapplication.com.getter.Completed_getter;
+import com.example.appzaorro.myapplication.model.getter.Completed_getter;
 import com.example.appzaorro.myapplication.model.Event;
 
 import org.greenrobot.eventbus.EventBus;
@@ -20,6 +20,7 @@ import java.util.ArrayList;
  */
 
 public class CompleteRequest {
+
     Context context;
     String params;
     ProgressDialog progressDialog;
@@ -87,10 +88,9 @@ public class CompleteRequest {
                     String mobile = jsonObject2.getString("mobile");
                     Log.e("detaillll",requestId +"\n" +fullname);
 
-                    Completed_getter completed_getter = new Completed_getter(context,"map image",requestId,cash,driverid,fullname,profilepic,mobile,pickupaddrss
+                    Completed_getter completed_getter = new Completed_getter("map image",requestId,cash,driverid,fullname,profilepic,mobile,pickupaddrss
                     ,dropaddress,distance,"20","22 minute","50 rs","-30");
                     arrayList.add(completed_getter);
-
                 }
                 EventBus.getDefault().post(new Event("COMPLETE","TRUE"));
 

@@ -1,4 +1,4 @@
-package com.example.appzaorro.myapplication.com.getter;
+package com.example.appzaorro.myapplication.model.getter;
 
 import java.util.ArrayList;
 
@@ -7,10 +7,10 @@ import java.util.ArrayList;
  */
 
 public class PendingRequest {
-    String requestid,descrption,datetime,pickaddress,dropaddress, statusreport;
+    String requestid,descrption,datetime,pickaddress,dropaddress, statusreport,customerprice;
     ArrayList<DriverDetail>list;
 
-    public PendingRequest(String requestid, String descrption,String datetime,String pickaddress,String dropaddress, String statusreport,ArrayList<DriverDetail> list) {
+    public PendingRequest(String requestid, String descrption,String datetime,String pickaddress,String dropaddress, String statusreport, String customerprice,ArrayList<DriverDetail> list) {
 
         this.requestid=requestid;
         this.descrption=descrption;
@@ -18,11 +18,20 @@ public class PendingRequest {
         this.pickaddress = pickaddress;
         this.dropaddress = dropaddress;
         this.statusreport =statusreport;
+        this.customerprice = customerprice;
         this.list =list;
     }
     public  PendingRequest(){
 
 
+    }
+
+    public String getCustomerprice() {
+        return customerprice;
+    }
+
+    public void setCustomerprice(String customerprice) {
+        this.customerprice = customerprice;
     }
 
     public String getStatusreport() {
