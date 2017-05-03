@@ -38,12 +38,12 @@ public class Notification extends AppCompatActivity {
         listView =(ListView)findViewById(R.id.notificationlist);
         notification = new ArrayList<>();
         datetime = new ArrayList<>();
-        notification.add("Rates have dropped in Sector 22 Chandigarh. Request a ride as soon as possible to avoid surge pricing.");
-        notification.add("Rates have dropped in Sector 22 Chandigarh.Request a ride as soon as possible to avoid surge pricing.");
-        notification.add("Rates have dropped in Sector 22 Chandigrh.Request a ride as soon as possible to avoid surge pricing.");
-        datetime.add("Nov-15-2016 : 3:40 pm");
-        datetime.add("Nov-15-2016 : 3:40 pm");
-        datetime.add("Nov-15-2016 : 3:40 pm");
+        notification.add("Rates have dropped in Railway Station Chandigarh. Request a ride as soon as possible to avoid surge pricing.");
+        notification.add("Rates have dropped in Sector 70 Mohali.Request a ride as soon as possible to avoid surge pricing.");
+        notification.add("Rates have dropped in Sector 17 B Chandigrh.Request a ride as soon as possible to avoid surge pricing.");
+        datetime.add("march-31-2017 : 3:40 pm");
+        datetime.add("April-10-2017 : 1:30 pm");
+        datetime.add("April-20-2017 : 3:40 pm");
         Log.e("notification",notification.toString());
         Log.e("date",datetime.toString());
 

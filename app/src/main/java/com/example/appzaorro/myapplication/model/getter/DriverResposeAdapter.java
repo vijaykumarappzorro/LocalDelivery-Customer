@@ -73,10 +73,12 @@ public class DriverResposeAdapter  extends BaseAdapter{
             holder.approve=(TextView) convertView.findViewById(R.id.btnapprove) ;
             holder.driverimage=(ImageView) convertView.findViewById(R.id.profile_image);
             holder.txtdrivername.setText(users.getDrivername());
-            holder.txtprice.setText(""+users.getPrice());
-            holder.txtdate.setText(users.getDate());
+            holder.txtprice.setText("$125");
+          //  holder.txtprice.setText(""+users.getPrice());
+           /* holder.txtdate.setText(users.getDate());
             holder.txttime.setText(users.getTime());
-
+*/
+            holder.txtdate.setText("20-04-17");
             holder.approve.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
